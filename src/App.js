@@ -1,8 +1,20 @@
-import logo from "./logo.svg";
+import { Component } from "react";
 import "./App.css";
-
-function App() {
-  return <div className="App">sb test aass</div>;
+import { connect } from "react-redux";
+class App extends Component {
+  render() {
+    console.log(this.props);
+    return (
+      <div className="App">
+        <div>{this.props.counter}</div>
+      </div>
+    );
+  }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    counter: state.counter,
+  };
+}
+export default connect(mapStateToProps)(App);
