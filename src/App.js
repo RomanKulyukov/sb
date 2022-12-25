@@ -1,16 +1,32 @@
 import { Component } from "react";
 import "./App.css";
+import Counter from "./Counter";
 import { connect } from "react-redux";
+import { add, sub, addNum, subNum, asyncAdd } from "./redux/actions/actions";
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div>{this.props.counter}</div>
-        <button onClick={this.props.onAdd}>Добавить</button>
-        <button onClick={this.props.onSub}>Убавить</button>
+      <div
+        style={{
+          display: "flex",
+          textAlign: "center",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ margin: 40 }}>
+          <div>{this.props.counter}</div>
+          <button onClick={this.props.onAdd}>Добавить</button>
+          <button onClick={this.props.onSub}>Убавить</button>
 
-        <button onClick={() => this.props.onAddNum(15)}>Добавить 15</button>
-        <button onClick={() => this.props.onSubNum(17)}>Убавить 17</button>
+          <button onClick={() => this.props.onAddNum(15)}>Добавить 15</button>
+          <button onClick={() => this.props.onSubNum(17)}>Убавить 17</button>
+          <button onClick={() => this.props.onAsyncAdd(1000000)}>
+            асинхронно добавить миллион
+          </button>
+        </div>
+        <Counter />
       </div>
     );
   }
@@ -18,16 +34,17 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    counter: state.counter,
+    counter: state.counter1.counter,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onAdd: () => dispatch({ type: "ADD" }),
-    onSub: () => dispatch({ type: "SUB" }),
-    onAddNum: (num) => dispatch({ type: "ADDNUM", payload: num }),
-    onSubNum: (num) => dispatch({ type: "SUBNUM", payload: num }),
+    onAdd: () => dispatch(add()),
+    onSub: () => dispatch(sub()),
+    onAddNum: (num) => dispatch(addNum(num)),
+    onSubNum: (num) => dispatch(subNum(num)),
+    onAsyncAdd: (num) => dispatch(asyncAdd(num)),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);
